@@ -1,4 +1,3 @@
-
 package com.onlineelection.system.RegisterationService.Entity;
 
 import jakarta.persistence.CascadeType;
@@ -7,78 +6,94 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 
 import com.onlineelection.system.UserModelService.Entity.Account;
 
 @Entity
 @Table(name = "ElectionComNominees")
 public class ElectionComNominees {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
+
     private String firstName;
     private String lastName;
+    private String studentId;
     private String yearOfStudy;
     private String phoneNumber;
     private String committeeDescription;
-    @OneToOne
-    @JoinColumn(name = "account_id") // Foreign key column in ElectionCommitteeMember table
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "studentId") // Foreign key to Account
     private Account account;
 
-    // Getter methods
+    // Getters and setters
 
-    public Account getAccount() {
-        return account;
+    public Long getId() {
+        return id;
     }
 
-    public void setfirstName(String firstName) {
-        this.firstName = firstName;
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public void setStudentId(String studentId)
+    {
+        this.studentId=studentId;
+
+    }
+    public String getStudentId()
+    {
+        return this.studentId;
     }
 
-    public void setlastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getfirstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public String lastName() {
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
         return lastName;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getYearOfStudy() {
         return yearOfStudy;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getCommitteeDescription() {
-        return committeeDescription;
-    }
-
-    // Setter methods
-
     public void setYearOfStudy(String yearOfStudy) {
         this.yearOfStudy = yearOfStudy;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getCommitteeDescription() {
+        return committeeDescription;
+    }
+
     public void setCommitteeDescription(String committeeDescription) {
         this.committeeDescription = committeeDescription;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 }

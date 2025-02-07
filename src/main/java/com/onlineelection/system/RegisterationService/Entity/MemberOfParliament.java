@@ -1,47 +1,55 @@
 package com.onlineelection.system.RegisterationService.Entity;
 
-import com.onlineelection.system.UserModelService.Entity.Account;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
+import com.onlineelection.system.UserModelService.Entity.Account;
+
 @Entity
 public class MemberOfParliament {
-    @Id
-    private String studentId; // Use studentId as primary identifier
 
-    private String position;//
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Boolean isCandidate;
+    private Boolean isPasswordChanged; // New field
 
     @OneToOne
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "student_id", referencedColumnName = "studentId")
     private Account account;
 
-    public MemberOfParliament(String studentId, String position) {
-        this.studentId = studentId;
-        this.position = position;
-    }
-
-    public MemberOfParliament() {
-
-    }
+    @OneToOne
+    @JoinColumn(name = "voter_id", referencedColumnName = "id") // Assuming you have a reference to the Voter
+    private Voter voter;
 
     // Getters and Setters
-    public String getStudentId() {
-        return studentId;
+    public Long getId() {
+        return id;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getPosition() {
-        return position;
+    public Boolean getIsCandidate() {
+        return isCandidate;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setIsCandidate(Boolean isCandidate) {
+        this.isCandidate = isCandidate;
+    }
+
+    public Boolean getIsPasswordChanged() {
+        return isPasswordChanged;
+    }
+
+    public void setIsPasswordChanged(Boolean isPasswordChanged) {
+        this.isPasswordChanged = isPasswordChanged;
     }
 
     public Account getAccount() {
@@ -50,5 +58,18 @@ public class MemberOfParliament {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Voter getVoter() {
+        return voter;
+    }
+
+    public void setVoter(Voter voter) {
+        this.voter = voter;
+    }
+
+    // Method to get the associated student ID
+    public String getStudentId() {
+        return account != null ? account.getStudentId() : null; // Return student ID from the associated account
     }
 }
